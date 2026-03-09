@@ -283,7 +283,7 @@ dependencies = [
  "tree-sitter-cmake",
  "tree-sitter-cpp",
  "tree-sitter-css",
- "tree-sitter-dart-orchard",
+ "tree-sitter-dart",
  "tree-sitter-devicetree",
  "tree-sitter-elisp",
  "tree-sitter-elixir",
@@ -1107,10 +1107,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "tree-sitter-dart-orchard"
-version = "0.2.1"
+name = "tree-sitter-dart"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "206d0062b36beab07b152aa9c02f5b4944453cd942ba01471df951b40292e9ad"
+checksum = "bba6bf8675e6fe92ba6da371a5497ee5df2a04d2c503e3599c8ad771f6f1faec"
 dependencies = [
  "cc",
  "tree-sitter-language",
