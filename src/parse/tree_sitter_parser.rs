@@ -65,6 +65,11 @@ pub(crate) struct TreeSitterConfig {
 
     /// Sub-languages in use, if any.
     sub_languages: Vec<TreeSitterSubLanguage>,
+
+    /// Tokens that are ignored when they appear as the last element
+    /// before a closing delimiter. This is useful for languages where
+    /// trailing commas are semantically insignificant (e.g. Dart).
+    ignorable_trailing_tokens: DftHashSet<&'static str>,
 }
 
 extern "C" {
@@ -108,6 +113,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Apex => {
@@ -134,6 +140,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Bash => {
@@ -149,6 +156,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_bash::HIGHLIGHT_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         C => {
@@ -160,6 +168,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
                 highlight_query: ts::Query::new(&language, tree_sitter_c::HIGHLIGHT_QUERY).unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         CPlusPlus => {
@@ -177,6 +186,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Clojure => {
@@ -195,6 +205,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         CMake => {
@@ -210,6 +221,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         CommonLisp => {
@@ -221,6 +233,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")")],
                 highlight_query: ts::Query::new(&language, "").unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         CSharp => {
@@ -243,6 +256,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Css => {
@@ -263,6 +277,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_css::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Dart => {
@@ -278,6 +293,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: [","].into_iter().collect(),
             }
         }
         DeviceTree => {
@@ -295,6 +311,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Elixir => {
@@ -310,6 +327,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_elixir::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Elm => {
@@ -323,6 +341,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_elm::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Elvish => {
@@ -337,6 +356,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         EmacsLisp => {
@@ -355,6 +375,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Erlang => {
@@ -371,6 +392,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         FSharp => {
@@ -385,6 +407,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                     .unwrap(),
 
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Fortran => {
@@ -400,6 +423,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Gleam => {
@@ -412,6 +436,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_gleam::HIGHLIGHT_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Go => {
@@ -429,6 +454,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_go::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Hack => {
@@ -443,6 +469,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Hare => {
@@ -457,6 +484,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Haskell => {
@@ -478,6 +506,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_haskell::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Hcl => {
@@ -500,6 +529,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Html => {
@@ -534,6 +564,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                         parse_as: JavaScript,
                     },
                 ],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Janet => {
@@ -557,6 +588,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Java => {
@@ -585,6 +617,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_java::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         JavaScript | JavascriptJsx => {
@@ -606,6 +639,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_javascript::HIGHLIGHT_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Json => {
@@ -619,6 +653,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_json::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Julia => {
@@ -642,6 +677,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Kotlin => {
@@ -669,6 +705,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         LaTeX => {
@@ -683,6 +720,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Lua => {
@@ -698,6 +736,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_lua::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Make => {
@@ -715,6 +754,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                         .unwrap(),
                     parse_as: Bash,
                 }],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Newick => {
@@ -731,6 +771,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Nix => {
@@ -746,6 +787,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_nix::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         ObjC => {
@@ -765,6 +807,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_objc::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         OCaml => {
@@ -777,6 +820,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_ocaml::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         OCamlInterface => {
@@ -789,6 +833,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 // TODO: why doesn't tree_sitter_ocaml::HIGHLIGHTS_QUERY work here?
                 highlight_query: ts::Query::new(&language, "").unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Pascal => {
@@ -805,6 +850,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Perl => {
@@ -835,6 +881,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Php => {
@@ -848,6 +895,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_php::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Proto => {
@@ -863,6 +911,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Python => {
@@ -875,6 +924,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_python::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Qml => {
@@ -891,6 +941,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         R => {
@@ -903,6 +954,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_r::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Racket => {
@@ -917,6 +969,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_racket::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Ruby => {
@@ -937,6 +990,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_ruby::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Rust => {
@@ -955,6 +1009,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Scala => {
@@ -967,6 +1022,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_scala::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Scheme => {
@@ -979,6 +1035,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_scheme::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Scss => {
@@ -995,6 +1052,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Smali => {
@@ -1009,6 +1067,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: Vec::new(),
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Solidity => {
@@ -1023,6 +1082,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_solidity::HIGHLIGHT_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Sql => {
@@ -1035,6 +1095,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_sequel::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Swift => {
@@ -1048,6 +1109,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_swift::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Toml => {
@@ -1061,6 +1123,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_toml_ng::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         TypeScriptTsx => {
@@ -1076,6 +1139,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         TypeScript => {
@@ -1093,6 +1157,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Xml => {
@@ -1109,6 +1174,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_xml::XML_HIGHLIGHT_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Yaml => {
@@ -1129,6 +1195,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_yaml::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Verilog => {
@@ -1144,6 +1211,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Vhdl => {
@@ -1158,6 +1226,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
         Zig => {
@@ -1173,6 +1242,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_zig::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                ignorable_trailing_tokens: DftHashSet::default(),
             }
         }
     }
@@ -1752,6 +1822,39 @@ fn list_from_cursor<'a>(
         node_i += 1;
     }
     cursor.goto_parent();
+
+    // Strip trailing tokens (e.g. commas) before closing delimiters
+    // if configured. This makes `f(a, b,)` and `f(a, b)` equivalent.
+    if !config.ignorable_trailing_tokens.is_empty() {
+        let close_delims: DftHashSet<&str> = config
+            .delimiter_tokens
+            .iter()
+            .map(|(_, close)| *close)
+            .collect();
+
+        // Remove ignorable tokens that appear just before a closing
+        // delimiter or at the end of the children list (before the
+        // outer closing delimiter).
+        let mut i = 0;
+        while i < between_delim.len() {
+            if let Syntax::Atom { content, .. } = between_delim[i] {
+                if config.ignorable_trailing_tokens.contains(content.as_str()) {
+                    let is_before_close = match between_delim.get(i + 1) {
+                        Some(Syntax::Atom { content, .. }) => {
+                            close_delims.contains(content.as_str())
+                        }
+                        None => true, // last element, before outer close delimiter
+                        _ => false,
+                    };
+                    if is_before_close {
+                        between_delim.remove(i);
+                        continue;
+                    }
+                }
+            }
+            i += 1;
+        }
+    }
 
     let inner_list = Syntax::new_list(
         arena,
